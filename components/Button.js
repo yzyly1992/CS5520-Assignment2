@@ -1,10 +1,21 @@
-import { View, Text } from 'react-native'
+import { View, Text, Pressable, StyleSheet } from 'react-native'
 import React from 'react'
 
-export default function Button() {
+export default function Button(props) {
   return (
-    <View>
-      <Text>Button</Text>
-    </View>
+    <Pressable 
+        onPress={props.buttonPressed}
+        style={({pressed})=>{
+            return pressed ? [props.customizedStyle, styles.pressed, props.pressedStyle] : props.customizedStyle;
+        }}
+    >
+      {props.children}
+    </Pressable>
   )
 }
+
+const styles = StyleSheet.create({
+  pressed: {
+    opacity: 0.4,
+  }
+})
