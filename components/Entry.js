@@ -10,7 +10,7 @@ export default function Entry({ entry, deleteEntry, checkWarning }) {
   return (
     <Button buttonPressed={()=>navigation.navigate('EditEntry', {entry:entry, deleteEntry:deleteEntry, checkWarning:checkWarning})}>
       <Text>{ entry.name }</Text>
-      {entry.warning ? <Text>warning</Text> : <Text></Text>}
+      {entry.warning && <Text>warning</Text>}
       <Button>
         <Text>{ entry.val }</Text>
       </Button>

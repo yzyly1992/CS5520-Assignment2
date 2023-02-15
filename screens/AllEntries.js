@@ -1,8 +1,19 @@
 import { View, Text, SafeAreaView } from 'react-native';
 import { useState } from 'react';
 import EntryList from '../components/EntryList';
+import Button from '../components/Button';
 
 export default function AllEntries({ navigation }) {
+  navigation.setOptions({
+    headerRight: () => {
+      return (
+        <Button buttonPressed={()=>navigation.navigate('AddAnEntry', {addEntry:addEntry})}>
+          <Text>Add</Text>
+        </Button>
+      )
+    }
+  })
+
   const [entries, setEntries] = useState([]);
 
   function addEntry(entry) {
@@ -10,14 +21,14 @@ export default function AllEntries({ navigation }) {
   }
 
   function deleteEntry(entryToDelete) {
-    setEntries(prev => prev.filter(entry => entry.id !== entryToDelete.id));
+    setEntries(prev => prev.filter(item => item.id !== entryToDelete.id));
   }
 
   function checkWarning(entryToCheck) {
-    const updatedEntries = entries.map(entry =>
-      entry.id === entryToCheck.id
-        ? { ...entry, warning: false }
-        : entry
+    const updatedEntries = entries.map(item =>
+      item.id === entryToCheck.id
+        ? { ...item, warning: false }
+        : item
     );
     setEntries(prev => updatedEntries);
   }

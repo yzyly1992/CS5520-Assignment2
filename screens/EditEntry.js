@@ -9,20 +9,19 @@ export default function EditEntry({ navigation, route }) {
       <Text>Calories: {route.params.entry.val}</Text>
       <Text>Description: {route.params.entry.name}</Text>
       <View>
-        <Button onPress={()=>{
+        <Button buttonPressed={()=>{
           route.params.deleteEntry(route.params.entry);
           navigation.goBack();
         }}>
           <Text>Delete</Text>
         </Button>
-        { route.params.entry.warning ?  
-        <Button onPress={()=>{
-          route.params.checkEntry(route.params.entry);
+        { route.params.entry.warning &&  
+        <Button buttonPressed={()=>{
+          route.params.checkWarning(route.params.entry);
           navigation.goBack();
         }}>
           <Text>Check</Text>
-        </Button> 
-        : null }
+        </Button> }
       </View>
     </Card>
   )
