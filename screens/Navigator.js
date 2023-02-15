@@ -1,5 +1,4 @@
 import { View, Text } from 'react-native';
-import React from 'react';
 import {createNativeStackNavigator} from '@react-navigation/native-stack'
 import AllEntries from './AllEntries';
 import OverLimitEntries from './OverLimitEntries';
@@ -10,6 +9,7 @@ import { myColor } from '../components/Color';
 const Stack = createNativeStackNavigator();
 
 export default function Navigator() {
+
   return (
     <Stack.Navigator initialRouteName="AllEntries" screenOptions={{headerStyle:{backgroundColor:myColor.secondary}, headerTitleStyle:{color:myColor.primary, fontSize: 18}, headerTitleAlign:"center"}}>
         <Stack.Screen name="AllEntries" component={AllEntries} options={{title: 'All Entries'}} />
