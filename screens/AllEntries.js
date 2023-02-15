@@ -2,13 +2,15 @@ import { View, Text, SafeAreaView } from 'react-native';
 import { useState } from 'react';
 import EntryList from '../components/EntryList';
 import Button from '../components/Button';
+import { MaterialCommunityIcons } from '@expo/vector-icons';
+import { myColor } from '../components/Color';
 
 export default function AllEntries({ navigation }) {
   navigation.setOptions({
     headerRight: () => {
       return (
         <Button buttonPressed={()=>navigation.navigate('AddAnEntry', {addEntry:addEntry})}>
-          <Text>Add</Text>
+          <MaterialCommunityIcons name="plus" size={24} color={myColor.primary} />
         </Button>
       )
     }
