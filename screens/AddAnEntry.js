@@ -26,6 +26,7 @@ export default function AddAnEntry({ navigation, route }) {
             value={value}
             onChangeText={setValue}
             style={styles.inputLine}
+            autoCapitalize={'none'}
           />
         </View>
         <View style={styles.inputItemContainer}>
@@ -37,6 +38,7 @@ export default function AddAnEntry({ navigation, route }) {
             multiline
             numberOfLines={4}
             style={styles.inputMultilines}
+            autoCapitalize={'none'}
           />
         </View>
       </View>
