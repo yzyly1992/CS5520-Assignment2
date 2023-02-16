@@ -1,19 +1,55 @@
-import { View, Text } from 'react-native';
+import { View, Text, StyleSheet } from 'react-native';
 import React from 'react';
 import { useNavigation } from '@react-navigation/native';
 import Button from './Button';
+import { myColor } from './Color';
+import { Ionicons } from '@expo/vector-icons';
 
 export default function Entry({ entry, deleteEntry, checkWarning }) {
 
   const navigation = useNavigation();
 
   return (
-    <Button buttonPressed={()=>navigation.navigate('EditEntry', {entry:entry, deleteEntry:deleteEntry, checkWarning:checkWarning})}>
-      <Text>{ entry.name }</Text>
-      {entry.warning && <Text>warning</Text>}
-      <Button>
-        <Text>{ entry.val }</Text>
-      </Button>
+    <Button 
+      buttonPressed={()=>navigation.navigate('EditEntry', {entry:entry, deleteEntry:deleteEntry, checkWarning:checkWarning})}
+      customizedStyle={styles.entry}
+    >
+      <Text style={styles.entryName}>{ entry.name }</Text>
+      <View style={{flexDirection:'row', alignItems:'center'}}>
+        {entry.warning && <Ionicons name="ios-warning" size={24} color={myColor.warning} />}
+        <Button customizedStyle={styles.entryValueButton}>
+          <Text style={styles.entryValue}>{ entry.val }</Text>
+        </Button>
+      </View>
     </Button>
   )
 }
+
+const styles = StyleSheet.create({
+  entry: {
+    backgroundColor: myColor.secondary,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    padding: 10,
+    margin: 8,
+    borderRadius: 5,
+  },
+  entryName: {
+    color: myColor.primary,
+    fontSize: 18,
+    fontWeight: 'bold',
+  },
+  entryValue: {
+    color: myColor.secondary,
+    fontSize: 16,
+    fontWeight: 'bold',
+  },
+  entryValueButton: {
+    width: 100,
+    alignItems: 'center',
+    backgroundColor: myColor.primary,
+    borderRadius: 5,
+    padding: 6,
+  }
+})

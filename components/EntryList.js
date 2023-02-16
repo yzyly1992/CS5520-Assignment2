@@ -18,6 +18,6 @@ export default function EntryList({ entries, deleteEntry, checkWarning }) {
 
 const styles = StyleSheet.create({
   scrollStyle: {
-    alignItems: 'center',
+    margin: 24,
   }
 })
