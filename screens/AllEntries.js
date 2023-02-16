@@ -1,43 +1,37 @@
-import { View, Text, SafeAreaView } from 'react-native';
-import { useState } from 'react';
+import { View, Text, SafeAreaView, StyleSheet } from 'react-native';
 import EntryList from '../components/EntryList';
 import Button from '../components/Button';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { myColor } from '../components/Color';
+import { useNavigation } from '@react-navigation/native';
 
-export default function AllEntries({ navigation }) {
+export default function AllEntries({ entries, addEntry, deleteEntry, checkWarning }) {
+
+  const navigation = useNavigation();
+
   navigation.setOptions({
     headerRight: () => {
       return (
-        <Button buttonPressed={()=>navigation.navigate('AddAnEntry', {addEntry:addEntry})}>
+        <Button 
+          buttonPressed={()=>navigation.navigate('AddAnEntry', {addEntry:addEntry})}
+          customizedStyle={{marginHorizontal: 20}}
+          >
           <MaterialCommunityIcons name="plus" size={24} color={myColor.primary} />
         </Button>
       )
     }
   })
 
-  const [entries, setEntries] = useState([]);
-
-  function addEntry(entry) {
-    setEntries(prev => [...prev, entry]);
-  }
-
-  function deleteEntry(entryToDelete) {
-    setEntries(prev => prev.filter(item => item.id !== entryToDelete.id));
-  }
-
-  function checkWarning(entryToCheck) {
-    const updatedEntries = entries.map(item =>
-      item.id === entryToCheck.id
-        ? { ...item, warning: false }
-        : item
-    );
-    setEntries(prev => updatedEntries);
-  }
-
   return (
-    <SafeAreaView>
+    <SafeAreaView style={styles.container}>
       <EntryList entries={entries} deleteEntry={deleteEntry} checkWarning={checkWarning}/>
     </SafeAreaView>
   )
 }
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: myColor.tertiary,
+  }
+})
