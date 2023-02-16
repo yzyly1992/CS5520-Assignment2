@@ -2,6 +2,8 @@ import { View, Text, TextInput, SafeAreaView, StyleSheet, Alert } from 'react-na
 import { useState } from 'react';
 import Button from '../components/Button';
 import { myColor } from '../components/Color';
+import { db } from '../firebaseConfig';
+import { doc, addDoc, collection } from 'firebase/firestore';
 
 export default function AddAnEntry({ navigation, route }) {
   const [name, setName] = useState();
@@ -50,15 +52,17 @@ export default function AddAnEntry({ navigation, route }) {
           <Text style={styles.buttonText}>Reset</Text>
         </Button>
         <Button 
-          buttonPressed={()=>{
+          buttonPressed={async ()=>{
           if (checkValid()) {
             let warning = false;
             let id = Math.random();
             if (value >= 500) {
               warning = true;
             }
-            let newEntry = {id:id, val:value, name: name, warning: warning}
-            route.params.addEntry(newEntry);
+            const newEntry = {id: id, val:value, name: name, warning: warning}
+            // route.params.addEntry(newEntry);
+            const res = await addDoc(collection(db, "entries"), newEntry);
+            console.log(res.id);
             resetInput();
             navigation.goBack();
           } else {

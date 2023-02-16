@@ -5,12 +5,26 @@ import OverLimitEntries from './OverLimitEntries';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { myColor } from '../components/Color';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import { collection, query, where, getDocs } from "firebase/firestore";
+import { db } from '../firebaseConfig';
 
 const Tab = createBottomTabNavigator();
 
 export default function Home() {
   const [entries, setEntries] = useState([]);
+  const loadData = async () => {
+    console.log("load data");
+    let results = [];
+    const q = await getDocs(collection(db, "entries"));
+    q.forEach((doc) => results.push(doc.data()));
+    setEntries(results);
+    console.log(entries);
+  }
+
+  useEffect(()=>{
+    loadData();
+  }, [])
 
   function addEntry(entry) {
     setEntries(prev => [...prev, entry]);
