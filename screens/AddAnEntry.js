@@ -1,4 +1,4 @@
-import { View, Text, TextInput, SafeAreaView, StyleSheet } from 'react-native';
+import { View, Text, TextInput, SafeAreaView, StyleSheet, Alert } from 'react-native';
 import { useState } from 'react';
 import Button from '../components/Button';
 import { myColor } from '../components/Color';
@@ -59,7 +59,18 @@ export default function AddAnEntry({ navigation, route }) {
             route.params.addEntry(newEntry);
             resetInput();
             navigation.goBack();
-          }}}
+          } else {
+            Alert.alert(
+              'Invalid Input',
+              'Please check your input values',
+              [
+                {
+                  text: 'OK',
+                },
+              ],
+            );
+          }
+          }}
           customizedStyle={styles.inputButton}
           >
           <Text style={styles.buttonText}>Submit</Text>

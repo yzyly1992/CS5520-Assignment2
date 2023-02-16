@@ -35,6 +35,7 @@ export default function Home() {
         tabBarActiveTintColor: myColor.active,
         headerStyle: {backgroundColor:myColor.secondary}, 
         headerTitleStyle: {color:myColor.primary, fontSize: 18}, 
+        headerTintColor: myColor.primary,
         headerTitleAlign: "center",
     }}>
         <Tab.Screen 

@@ -1,4 +1,4 @@
-import { View, Text, SafeAreaView, StyleSheet } from 'react-native';
+import { View, Text, SafeAreaView, StyleSheet, Alert } from 'react-native';
 import React from 'react';
 import Card from '../components/Card';
 import Button from '../components/Button';
@@ -14,8 +14,23 @@ export default function EditEntry({ navigation, route }) {
         <View style={styles.buttonContainer}>
           <Button 
             buttonPressed={()=>{
-            route.params.deleteEntry(route.params.entry);
-            navigation.goBack();}}
+              Alert.alert(
+                'Delete',
+                'Are you sure you want to delete this?',
+                [
+                  {
+                    text: 'No',
+                  },
+                  {
+                    text: 'Yes',
+                    onPress: () => {
+                      route.params.deleteEntry(route.params.entry);
+                      navigation.goBack();
+                    },
+                  },
+                ],
+              );
+            }}
             customizedStyle={styles.iconButton}
           >
             <MaterialIcons name="delete-outline" size={24} color={myColor.primary} />
@@ -23,8 +38,23 @@ export default function EditEntry({ navigation, route }) {
           { route.params.entry.warning &&  
           <Button 
             buttonPressed={()=>{
-            route.params.checkWarning(route.params.entry);
-            navigation.goBack();}}
+              Alert.alert(
+                'Important',
+                'Are you sure you want to mark this item as reviewed?',
+                [
+                  {
+                    text: 'No',
+                  },
+                  {
+                    text: 'Yes',
+                    onPress: () => {
+                      route.params.checkWarning(route.params.entry);
+                      navigation.goBack();
+                    },
+                  },
+                ],
+              );
+            }}
             customizedStyle={styles.iconButton}
           >
             <MaterialIcons name="check" size={24} color={myColor.primary} />
