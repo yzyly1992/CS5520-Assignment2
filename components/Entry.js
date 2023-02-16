@@ -34,6 +34,14 @@ const styles = StyleSheet.create({
     padding: 10,
     margin: 8,
     borderRadius: 5,
+    shadowOffset:  {
+      width: 5,
+      height: 5,
+    },
+    shadowColor: 'black',
+    shadowOpacity: '0.3',
+    shadowRadius: 8,
+    elevation: 5,
   },
   entryName: {
     color: myColor.primary,
