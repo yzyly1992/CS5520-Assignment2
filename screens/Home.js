@@ -1,5 +1,6 @@
 import React from 'react';
 import AllEntries from './AllEntries';
+import Button from '../components/Button';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { myColor } from '../components/Color';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
@@ -9,8 +10,8 @@ import { db } from '../firebaseConfig';
 
 const Tab = createBottomTabNavigator();
 
-export default function Home({ route }) {
-  
+export default function Home({ navigation, route }) {
+
   const [entries, setEntries] = useState([]);
 
   const loadData = async () => {
@@ -27,7 +28,7 @@ export default function Home({ route }) {
   }, [route])
   
   return (
-    <Tab.Navigator initialRouteName="AllEntries" screenOptions={{
+    <Tab.Navigator screenOptions={{
         tabBarStyle: { position: 'absolute', backgroundColor: myColor.secondary },
         tabBarActiveTintColor: myColor.active,
         headerStyle: {backgroundColor:myColor.secondary}, 
@@ -38,11 +39,37 @@ export default function Home({ route }) {
         <Tab.Screen 
             name="AllEntries"
             children={() => <AllEntries entries={entries} />}
-            options={{title: 'All Entries', tabBarIcon:({ color, size })=><MaterialCommunityIcons name="tea" size={size} color={color} />}} />
+            options={{
+              title: 'All Entries', 
+              tabBarIcon:({ color, size })=><MaterialCommunityIcons name="tea" size={size} color={color} />,
+              headerRight: () => {
+                return (
+                  <Button 
+                    buttonPressed={()=>navigation.navigate('AddAnEntry')}
+                    customizedStyle={{marginHorizontal: 20}}
+                    >
+                    <MaterialCommunityIcons name="plus" size={24} color={myColor.primary} />
+                  </Button>
+                )
+              }
+            }} />
         <Tab.Screen 
             name="OverLimitEntries" 
             children={() => <AllEntries entries={entries.filter(item => item.warning === true)}/>}
-            options={{title: 'Over-limit Entries', tabBarIcon:({ color, size })=><MaterialCommunityIcons name="alert-rhombus" size={size} color={color} />}} />
+            options={{
+              title: 'Over-limit Entries', 
+              tabBarIcon:({ color, size })=><MaterialCommunityIcons name="alert-rhombus" size={size} color={color} />,
+              headerRight: () => {
+                return (
+                  <Button 
+                    buttonPressed={()=>navigation.navigate('AddAnEntry')}
+                    customizedStyle={{marginHorizontal: 20}}
+                    >
+                    <MaterialCommunityIcons name="plus" size={24} color={myColor.primary} />
+                  </Button>
+                )
+              }
+            }} />
     </Tab.Navigator>
   )
 }
