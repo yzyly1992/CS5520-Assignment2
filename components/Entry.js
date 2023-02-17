@@ -5,13 +5,13 @@ import Button from './Button';
 import { myColor } from './Color';
 import { Ionicons } from '@expo/vector-icons';
 
-export default function Entry({ entry, deleteEntry, checkWarning }) {
+export default function Entry({ entry }) {
 
   const navigation = useNavigation();
 
   return (
     <Button 
-      buttonPressed={()=>navigation.navigate('EditEntry', {entry:entry, deleteEntry:deleteEntry, checkWarning:checkWarning})}
+      buttonPressed={()=>navigation.navigate('EditEntry', {entry:entry})}
       customizedStyle={styles.entry}
     >
       <Text style={styles.entryName}>{ entry.name }</Text>

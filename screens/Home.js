@@ -6,42 +6,21 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { myColor } from '../components/Color';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { useState, useEffect } from 'react';
-import { collection, query, where, getDocs } from "firebase/firestore";
+import { collection, onSnapshot } from "firebase/firestore";
 import { db } from '../firebaseConfig';
 
 const Tab = createBottomTabNavigator();
 
 export default function Home() {
   const [entries, setEntries] = useState([]);
-  const loadData = async () => {
-    console.log("load data");
+  
+  const unsubscribe = onSnapshot(collection(db, "entries"), (querySnapshot) => {
     let results = [];
-    const q = await getDocs(collection(db, "entries"));
-    q.forEach((doc) => results.push(doc.data()));
+    querySnapshot.forEach((doc) => {
+      results.push({ id:doc.id, name:doc.data().name, val:doc.data().val, warning:doc.data().warning });
+    })
     setEntries(results);
-    console.log(entries);
-  }
-
-  useEffect(()=>{
-    loadData();
-  }, [])
-
-  function addEntry(entry) {
-    setEntries(prev => [...prev, entry]);
-  }
-
-  function deleteEntry(entryToDelete) {
-    setEntries(prev => prev.filter(item => item.id !== entryToDelete.id));
-  }
-
-  function checkWarning(entryToCheck) {
-    const updatedEntries = entries.map(item =>
-      item.id === entryToCheck.id
-        ? { ...item, warning: false }
-        : item
-    );
-    setEntries(prev => updatedEntries);
-  }
+  })
 
   return (
     <Tab.Navigator initialRouteName="AllEntries" screenOptions={{
@@ -54,15 +33,11 @@ export default function Home() {
     }}>
         <Tab.Screen 
             name="AllEntries"
-            // component={AllEntries}
-            // initialParams = {{ entries:entries, addEntry:addEntry, deleteEntry:deleteEntry, checkWarning:checkWarning }}
-            children={() => <AllEntries entries={entries} addEntry={addEntry} deleteEntry={deleteEntry} checkWarning={checkWarning} />}
+            children={() => <AllEntries entries={entries} />}
             options={{title: 'All Entries', tabBarIcon:({ color, size })=><MaterialCommunityIcons name="tea" size={size} color={color} />}} />
         <Tab.Screen 
             name="OverLimitEntries" 
-            // component={OverLimitEntries}
-            // initialParams = {{ entries:entries, addEntry:addEntry, deleteEntry:deleteEntry, checkWarning:checkWarning }}
-            children={() => <AllEntries entries={entries.filter(item => item.warning === true)} addEntry={addEntry} deleteEntry={deleteEntry} checkWarning={checkWarning} />}
+            children={() => <AllEntries entries={entries.filter(item => item.warning === true)}/>}
             options={{title: 'Over-limit Entries', tabBarIcon:({ color, size })=><MaterialCommunityIcons name="alert-rhombus" size={size} color={color} />}} />
     </Tab.Navigator>
   )

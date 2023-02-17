@@ -4,6 +4,8 @@ import Card from '../components/Card';
 import Button from '../components/Button';
 import { myColor } from '../components/Color';
 import { MaterialIcons } from '@expo/vector-icons';
+import { doc, deleteDoc, updateDoc } from "firebase/firestore";
+import { db } from '../firebaseConfig';
 
 export default function EditEntry({ navigation, route }) {
   return (
@@ -23,8 +25,8 @@ export default function EditEntry({ navigation, route }) {
                   },
                   {
                     text: 'Yes',
-                    onPress: () => {
-                      route.params.deleteEntry(route.params.entry);
+                    onPress: async() => {
+                      await deleteDoc(doc(db, "entries", route.params.entry.id))
                       navigation.goBack();
                     },
                   },
@@ -47,8 +49,10 @@ export default function EditEntry({ navigation, route }) {
                   },
                   {
                     text: 'Yes',
-                    onPress: () => {
-                      route.params.checkWarning(route.params.entry);
+                    onPress: async() => {
+                      await updateDoc(doc(db, "entries", route.params.entry.id), {
+                        warning: false
+                      })
                       navigation.goBack();
                     },
                   },

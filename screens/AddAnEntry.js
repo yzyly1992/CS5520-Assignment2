@@ -52,17 +52,14 @@ export default function AddAnEntry({ navigation, route }) {
           <Text style={styles.buttonText}>Reset</Text>
         </Button>
         <Button 
-          buttonPressed={async ()=>{
+          buttonPressed={ async ()=>{
           if (checkValid()) {
             let warning = false;
-            let id = Math.random();
             if (value >= 500) {
               warning = true;
             }
-            const newEntry = {id: id, val:value, name: name, warning: warning}
-            // route.params.addEntry(newEntry);
-            const res = await addDoc(collection(db, "entries"), newEntry);
-            console.log(res.id);
+            const newEntry = { name: name, warning: warning }
+            await addDoc(collection(db, "entries"), newEntry);
             resetInput();
             navigation.goBack();
           } else {
