@@ -1,4 +1,3 @@
-import { View, Text } from 'react-native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import Home from './Home';
 import EditEntry from './EditEntry';

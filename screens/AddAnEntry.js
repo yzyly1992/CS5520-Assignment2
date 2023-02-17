@@ -3,7 +3,7 @@ import { useState } from 'react';
 import Button from '../components/Button';
 import { myColor } from '../components/Color';
 import { db } from '../firebaseConfig';
-import { doc, addDoc, collection } from 'firebase/firestore';
+import { addDoc, collection } from 'firebase/firestore';
 
 export default function AddAnEntry({ navigation, route }) {
   const [name, setName] = useState();
@@ -58,10 +58,10 @@ export default function AddAnEntry({ navigation, route }) {
             if (value >= 500) {
               warning = true;
             }
-            const newEntry = { name: name, warning: warning }
+            const newEntry = { val: value, name: name, warning: warning }
             await addDoc(collection(db, "entries"), newEntry);
             resetInput();
-            navigation.goBack();
+            navigation.navigate('AllEntries');
           } else {
             Alert.alert(
               'Invalid Input',
@@ -110,8 +110,9 @@ const styles = StyleSheet.create({
   },
   inputLine: {
     backgroundColor: myColor.quaternary,
-    color: myColor.primary,
+    color: myColor.secondary,
     fontSize: 16,
+    fontWeight: 'bold',
     height: 40,
     borderRadius: 5,
     padding: 10,
@@ -119,8 +120,9 @@ const styles = StyleSheet.create({
   },
   inputMultilines: {
     backgroundColor: myColor.quaternary,
-    color: myColor.primary,
+    color: myColor.secondary,
     fontSize: 16,
+    fontWeight: 'bold',
     height: 150,
     borderRadius: 5,
     padding: 10,

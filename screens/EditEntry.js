@@ -27,7 +27,7 @@ export default function EditEntry({ navigation, route }) {
                     text: 'Yes',
                     onPress: async() => {
                       await deleteDoc(doc(db, "entries", route.params.entry.id))
-                      navigation.goBack();
+                      navigation.navigate('AllEntries');
                     },
                   },
                 ],
@@ -53,7 +53,7 @@ export default function EditEntry({ navigation, route }) {
                       await updateDoc(doc(db, "entries", route.params.entry.id), {
                         warning: false
                       })
-                      navigation.goBack();
+                      navigation.navigate('AllEntries');
                     },
                   },
                 ],

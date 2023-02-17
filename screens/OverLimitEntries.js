@@ -1,4 +1,4 @@
-import { View, Text, SafeAreaView } from 'react-native';
+import { SafeAreaView } from 'react-native';
 import EntryList from '../components/EntryList';
 import React from 'react';
 import Button from '../components/Button';
@@ -6,9 +6,8 @@ import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { myColor } from '../components/Color';
 import { useNavigation } from '@react-navigation/native';
 
-export default function OverLimitEntries({ entries, addEntry, deleteEntry, checkWarning }) {
+export default function OverLimitEntries({ entries }) {
   const navigation = useNavigation();
-
   navigation.setOptions({
     headerRight: () => {
       return (
@@ -21,9 +20,10 @@ export default function OverLimitEntries({ entries, addEntry, deleteEntry, check
       )
     }
   })
+
   return (
     <SafeAreaView>
-      <EntryList entries={entries} deleteEntry={deleteEntry} checkWarning={checkWarning}/>
+      <EntryList entries={entries} />
     </SafeAreaView>
   )
 }
