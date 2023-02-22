@@ -3,7 +3,7 @@ import { db } from "./firebaseConfig";
 
 async function writeToDB(dataToWrite) {
     try {
-        const docRef = await addDoc(collection(db, "entries"), dataToWrite);
+        await addDoc(collection(db, "entries"), dataToWrite);
     } catch (err) {
         console.log(err);
     }

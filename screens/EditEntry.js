@@ -26,7 +26,7 @@ export default function EditEntry({ navigation, route }) {
                     text: 'Yes',
                     onPress: () => {
                       deleteFromDB(route.params.entry.id);
-                      navigation.navigate('AllEntries');
+                      navigation.goBack();
                     },
                   },
                 ],
@@ -50,7 +50,7 @@ export default function EditEntry({ navigation, route }) {
                     text: 'Yes',
                     onPress: () => {
                       updateToDB(route.params.entry.id);
-                      navigation.navigate('AllEntries');
+                      navigation.goBack();
                     },
                   },
                 ],

@@ -60,7 +60,7 @@ export default function AddAnEntry({ navigation, route }) {
             const newEntry = { val: value, name: name, warning: warning }
             writeToDB(newEntry);
             resetInput();
-            navigation.navigate('AllEntries');
+            navigation.goBack();
           } else {
             Alert.alert(
               'Invalid Input',
