@@ -5,27 +5,33 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { myColor } from '../components/Color';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { useState, useEffect } from 'react';
-import { collection, getDocs } from "firebase/firestore";
-import { db } from '../firebaseConfig';
+import { collection, onSnapshot } from "firebase/firestore";
+import { db } from '../Firebase/firebaseConfig';
 
 const Tab = createBottomTabNavigator();
 
-export default function Home({ navigation, route }) {
+export default function Home({ navigation }) {
 
   const [entries, setEntries] = useState([]);
 
-  const loadData = async () => {
-    const querySnapshot = await getDocs(collection(db, "entries"));
-    let results = [];
-    querySnapshot.forEach((doc) => {
-      results.push({ id:doc.id, name:doc.data().name, val:doc.data().val, warning:doc.data().warning });
-    })
-    setEntries(results);
-  }
-
   useEffect(() => {
-    loadData();
-  }, [route])
+    const unsubscribe = onSnapshot(collection(db, "entries"), (querySnapshot) => {
+      if (querySnapshot.empty) {
+        setEntries([]);
+      } else {
+        const newEntries = [];
+        querySnapshot.forEach((doc) => {
+            newEntries.push({ ...doc.data(), id:doc.id });
+        });
+        setEntries(newEntries);
+      }
+    });
+
+    // cleanup function when leaving the screen
+    return () => {
+      unsubscribe();
+    };
+  }, []);
   
   return (
     <Tab.Navigator screenOptions={{
